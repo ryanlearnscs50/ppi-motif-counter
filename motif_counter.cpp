@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     int m = edges.size();
     cout << "Loaded graph: " << n << " nodes, " << m << " edges.\n";
 
-    // Build adjacency and bitsets for the real graph
+    // build adjacency and bitsets for the real graph
     vector<vector<int>> adj(n);
     vector<BS> adjbit(n);
     for (auto &e : edges) {
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    // Function to count triangles
+    // funct to count triangles
     auto count_triangles = [&]() {
         long long cnt = 0;
         for (int x = 0; x < n; ++x) {
@@ -58,11 +58,11 @@ int main(int argc, char** argv) {
         return cnt;
     };
 
-    // Count triangles in the real network
+    // count triangles in the real network
     long long real_tri = count_triangles();
     cout << "Real triangles = " << real_tri << "\n";
 
-    // Precompute degree sequence for configuration model
+    // config model
     vector<int> degree(n);
     for (int i = 0; i < n; ++i) {
         degree[i] = adj[i].size();
@@ -71,11 +71,10 @@ int main(int argc, char** argv) {
     mt19937_64 rng(12345);
     vector<long long> tri_rand(R);
 
-    // Perform R randomizations using configuration model
+    // Perform R randomizations
     for (int r = 0; r < R; ++r) {
         cout << "\nRandomization " << (r + 1) << " of " << R << "\n";
 
-        // Build stub list
         vector<int> stubs;
         stubs.reserve(2 * m);
         for (int i = 0; i < n; ++i) {
@@ -84,10 +83,8 @@ int main(int argc, char** argv) {
             }
         }
 
-        // Shuffle stubs
         shuffle(stubs.begin(), stubs.end(), rng);
 
-        // Pair stubs to form edges
         vector<BS> bits(n);
         int added = 0;
         for (int k = 0; k + 1 < (int)stubs.size() && added < m; k += 2) {
